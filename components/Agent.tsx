@@ -1,6 +1,7 @@
 "use client";
 
 import { interviewer } from "@/constants";
+import { interviewGeneratorWorkflow } from "@/constants/workflow";
 import { cn } from "@/lib/utils";
 import vapi from "@/lib/vapi.sdk";
 import Image from "next/image";
@@ -109,32 +110,37 @@ const Agent = ({userName,
     }
   }, [callStatus, type, router]);
 
-  const handleCall = async () => {
+  
+const handleCall = async () => {
+  try {
     setCallStatus(CallStatus.CONNECTING);
 
     if (type === "generate") {
-      // Pass only the workflow ID string here:
-      await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!),{
-        variableValues : {
-          username  : userName,
-          userid : userId,
+      // Use the workflow object directly instead of workflow ID
+      await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID, {
+        variableValues: {
+          username: userName,
+          userid: userId,
         }
-      }
-    }
-    else{
+      });
+    } else {
       let formattedQuestions = '';
-      if(questions){
+      if (questions) {
         formattedQuestions = questions
-        .map((question)=> `${question}`)
-        .join('\n');
+          .map((question) => `${question}`)
+          .join('\n');
       }
-      await vapi.start(interviewer,{
-        variableValues:{
-          questions : formattedQuestions
+      await vapi.start(interviewer, {
+        variableValues: {
+          questions: formattedQuestions
         }
-      })
+      });
     }
-  };
+  } catch (error) {
+    console.error("Failed to start call:", error);
+    setCallStatus(CallStatus.INACTIVE);
+  }
+};
 
   const handleDisconnect = () => {
     setCallStatus(CallStatus.FINISHED);
