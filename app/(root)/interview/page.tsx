@@ -1,3 +1,4 @@
+
 import Agent from "@/components/Agent";
 import { getCurrentUser } from "@/lib/actions/auth.action";
 
@@ -10,7 +11,7 @@ const Page = async () => {
 
       <Agent
         userName={user?.name!}
-        userId={user?.id}
+        userId={user?.id!}
         
         type="generate"
       />
