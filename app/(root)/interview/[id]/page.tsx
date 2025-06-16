@@ -6,7 +6,7 @@ import { getRandomInterviewCover } from "@/lib/utils";
 
 import {
   getInterviewById
-} from "@/lib/actions/general.action";
+} from "@/lib/actions/general.actions.server";
 import { getCurrentUser } from "@/lib/actions/auth.action";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
 
@@ -47,7 +47,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
       </div>
 
       <Agent
-        userName={user?.name!}
+        userName={user?.name || ''}
         userId={user?.id!}
         interviewId={id}
         type="interview"
