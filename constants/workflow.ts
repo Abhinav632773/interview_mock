@@ -87,7 +87,7 @@ export const interviewGeneratorWorkflow = {
         }
       },
       "tool": {
-        "url": "https://interview-mock-one.vercel.app/api/vapi/generate",
+        "url": "https://ai-mock-interview-coral-five.vercel.app/api/vapi/generate",
         "body": {
           "type": "object",
           "required": [
